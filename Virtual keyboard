@@ -1,0 +1,42 @@
+import tkinter as tk
+
+class Keyboard:
+    def __init__(self, master):
+        self.master = master
+        self.master.title('Virtual Keyboard')
+        self.master.resizable(False, False)
+        
+        # Create the text entry box
+        self.entry = tk.Entry(self.master, width=50)
+        self.entry.grid(row=0, column=0, columnspan=10, padx=5, pady=5)
+        
+        # Define the keys on the keyboard
+        self.keys = [
+            'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p',
+            'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', '',
+            'z', 'x', 'c', 'v', 'b', 'n', 'm', '', '', ''
+        ]
+        
+        # Create the key buttons
+        self.buttons = []
+        row, col = 1, 0
+        for key in self.keys:
+            if key == '':
+                col += 1
+                continue
+            button = tk.Button(self.master, text=key, width=4, height=2, 
+                               command=lambda char=key: self.click(char))
+            button.grid(row=row, column=col, padx=3, pady=3)
+            self.buttons.append(button)
+            col += 1
+            if col > 9:
+                row += 1
+                col = 0
+        
+    def click(self, char):
+        # Add the clicked key to the text entry box
+        self.entry.insert(tk.END, char)
+        
+root = tk.Tk()
+keyboard = Keyboard(root)
+root.mainloop()
